@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: Employee_Control_Tool
+  datasource:
+    url: jdbc:postgresql://localhost:5432/Employee_Control_Tool
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+#WEB
+server:
+  port: ${SERVER-PORT}
+
+
+#Security
+security:
+  jwt:
+    issuer: ${JWT-ISSUER}
+    private-key: ${JWT-PRIVATE-KEY}
+    expiration-minutes: ${JWT-EXPIRATION-MINUTES}
