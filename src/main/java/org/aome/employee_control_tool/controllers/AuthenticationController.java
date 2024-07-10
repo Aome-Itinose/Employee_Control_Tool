@@ -6,7 +6,7 @@ import org.aome.employee_control_tool.dtos.AuthenticationDTO;
 import org.aome.employee_control_tool.security.JWTUtil;
 import org.aome.employee_control_tool.services.UserService;
 import org.aome.employee_control_tool.store.entities.UserEntity;
-import org.aome.employee_control_tool.util.exceptions.ExceptionMessageCollector;
+import org.aome.employee_control_tool.util.ExceptionMessageCollector;
 import org.aome.employee_control_tool.util.responses.AuthenticationResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;

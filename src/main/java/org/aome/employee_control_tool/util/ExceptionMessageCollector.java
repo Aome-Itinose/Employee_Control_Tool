@@ -1,4 +1,4 @@
-package org.aome.employee_control_tool.util.exceptions;
+package org.aome.employee_control_tool.util;
 
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
