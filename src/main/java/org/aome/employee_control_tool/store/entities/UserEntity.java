@@ -20,7 +20,7 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     UUID id;
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true)
     String username;
 
     @Column(name = "password")

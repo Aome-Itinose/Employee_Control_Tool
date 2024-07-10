@@ -22,10 +22,10 @@ public class JWTUtil {
     @Value("${security.jwt.expiration-minutes}")
     private Integer expirationMinutes;
 
-    public String generateToken(String id){
+    public String generateToken(String username){
         Date expirationDate = Date.from(ZonedDateTime.now().plusMinutes(expirationMinutes).toInstant());
         return JWT.create()
-                .withSubject(id)
+                .withSubject(username)
                 .withIssuedAt(new Date())
                 .withIssuer(issuer)
                 .withExpiresAt(expirationDate)
