@@ -7,7 +7,6 @@ import org.aome.employee_control_tool.security.UserDetailsHolder;
 import org.aome.employee_control_tool.store.entities.EmployeeEntity;
 import org.aome.employee_control_tool.store.entities.UserEntity;
 import org.aome.employee_control_tool.store.repositories.EmployeeRepository;
-import org.aome.employee_control_tool.store.repositories.UserRepository;
 import org.aome.employee_control_tool.util.converters.Converters;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,5 +34,8 @@ public class EmployeeService {
         }catch (IOException e){
             throw new EmployeeNotSaveException(e.getMessage());
         }
+    }
+    public boolean existsByFirstNameAndLastName(String firstName, String lastName){
+        return employeeRepository.existsByFirstNameAndLastName(firstName, lastName);
     }
 }

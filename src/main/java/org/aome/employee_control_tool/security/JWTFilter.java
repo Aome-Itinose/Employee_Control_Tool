@@ -41,11 +41,11 @@ public class JWTFilter extends OncePerRequestFilter {
             }
 
         } catch (UserNotFoundException e) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.getWriter().write(objectMapper.writeValueAsString(new ExceptionResponse(e.getMessage(), LocalDateTime.now())));
         }catch (JWTVerificationException e){
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.getWriter().write(objectMapper.writeValueAsString(new ExceptionResponse("Jwt is incorrect", LocalDateTime.now())));
         }

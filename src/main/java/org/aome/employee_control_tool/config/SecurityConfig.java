@@ -3,6 +3,7 @@ package org.aome.employee_control_tool.config;
 import lombok.RequiredArgsConstructor;
 import org.aome.employee_control_tool.security.JWTFilter;
 import org.aome.employee_control_tool.security.UserSecurityDetailsService;
+import org.aome.employee_control_tool.store.entities.Roles;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,7 +32,7 @@ public class SecurityConfig {
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/user/**").hasAnyRole("USER")
+                        .requestMatchers("/user/**").hasRole(Roles.USER.getTitle())
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

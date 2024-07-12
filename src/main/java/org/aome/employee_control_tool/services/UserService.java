@@ -39,6 +39,7 @@ public class UserService {
     public UserEntity setEmployeeById(UUID id, EmployeeEntity employeeEntity){
         UserEntity user = userRepository.findUserEntityById(id).orElseThrow(UserNotFoundException::new);
         user.setEmployee(employeeEntity);
+        user.setRole("ROLE_EMPLOYEE");
         userRepository.save(user);
         return user;
     }
