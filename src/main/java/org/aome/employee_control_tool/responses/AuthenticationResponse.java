@@ -1,4 +1,4 @@
-package org.aome.employee_control_tool.util.responses;
+package org.aome.employee_control_tool.responses;
 
 import lombok.*;
 

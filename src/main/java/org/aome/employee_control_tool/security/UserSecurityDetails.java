@@ -1,5 +1,6 @@
 package org.aome.employee_control_tool.security;
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.aome.employee_control_tool.store.entities.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -8,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
+@Data
 @RequiredArgsConstructor
 public class UserSecurityDetails implements UserDetails {
     private final UserEntity userEntity;

@@ -1,4 +1,4 @@
-package org.aome.employee_control_tool.util.exceptions;
+package org.aome.employee_control_tool.exceptions;
 
 public class UserNotFoundException extends RuntimeException{
     public UserNotFoundException(){

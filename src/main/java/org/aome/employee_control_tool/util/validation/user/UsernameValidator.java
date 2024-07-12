@@ -1,4 +1,4 @@
-package org.aome.employee_control_tool.util.validation;
+package org.aome.employee_control_tool.util.validation.user;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

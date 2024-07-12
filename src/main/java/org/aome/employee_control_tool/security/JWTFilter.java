@@ -7,8 +7,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.aome.employee_control_tool.util.exceptions.UserNotFoundException;
-import org.aome.employee_control_tool.util.responses.ExceptionResponse;
+import org.aome.employee_control_tool.exceptions.UserNotFoundException;
+import org.aome.employee_control_tool.responses.ExceptionResponse;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,7 +27,6 @@ public class JWTFilter extends OncePerRequestFilter {
     private final JWTUtil jwtUtil;
     private final ObjectMapper objectMapper;
 
-    private HttpServletRequest request;
     private String token;
 
     @Override
@@ -35,7 +34,6 @@ public class JWTFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         try {
             String authHeader = request.getHeader("Authentication");
-            this.request = request;
 
             if (headerIsValid(authHeader)) {
                 token = authHeader.substring(7);

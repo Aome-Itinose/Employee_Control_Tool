@@ -2,7 +2,7 @@ package org.aome.employee_control_tool.dtos;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import org.aome.employee_control_tool.util.validation.UsernameConstraint;
+import org.aome.employee_control_tool.util.validation.user.UsernameConstraint;
 
 @Data
 public class AuthenticationDTO {

@@ -29,4 +29,7 @@ public class UserEntity {
     @Column(name = "role")
     String role;
 
+    @OneToOne(mappedBy = "user")
+    EmployeeEntity employee;
+
 }
