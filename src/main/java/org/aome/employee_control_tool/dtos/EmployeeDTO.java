@@ -11,11 +11,15 @@ import lombok.experimental.FieldDefaults;
 import org.aome.employee_control_tool.util.validation.employee.DateOfHireConstraint;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Data
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class EmployeeDTO {
+    @JsonProperty("id")
+    UUID id;
+
     @NotBlank
     @JsonProperty("first_name")
     String firstName;

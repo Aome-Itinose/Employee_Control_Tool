@@ -5,8 +5,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -16,13 +14,13 @@ import java.util.UUID;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "Employee")
-public class EmployeeEntity {
+@Table(name = "Test_Employee")
+public class TestEmployeeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     UserEntity user;
 
@@ -44,17 +42,4 @@ public class EmployeeEntity {
     @Column(name = "ceo_link")
     String ceoLink;
 
-    @OneToMany(mappedBy = "employee")
-    List<TimeSheetEntity> timeSheets;
-
-    @OneToMany(mappedBy = "employee")
-    List<VacationEntity> vacations;
-
-    public List<TimeSheetEntity> getTimeSheets() {
-        return timeSheets == null ? new ArrayList<>() : timeSheets;
-    }
-
-    public List<VacationEntity> getVacations() {
-        return vacations == null ? new ArrayList<>() : vacations;
-    }
 }

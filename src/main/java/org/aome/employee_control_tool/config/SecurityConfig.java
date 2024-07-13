@@ -32,8 +32,10 @@ public class SecurityConfig {
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/user/**").hasRole(Roles.USER.getTitle())
-                        .anyRequest().authenticated())
+                        .requestMatchers("/user/**").hasAnyRole(Roles.USER.getTitle(), Roles.BIG_BROTHER.getTitle())
+                        .requestMatchers("/teamlead/**").hasAnyRole(Roles.TEAMLEAD.getTitle(), Roles.BIG_BROTHER.getTitle())
+                        .requestMatchers("/director/**").hasAnyRole(Roles.DIRECTOR.getTitle(), Roles.BIG_BROTHER.getTitle())
+                )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

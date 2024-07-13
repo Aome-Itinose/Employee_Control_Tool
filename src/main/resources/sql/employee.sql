@@ -1,4 +1,4 @@
-create table Employee(
+create table Test_Employee(
                          id uuid unique default gen_random_uuid(),
                          user_id uuid references Users(id) not null,
                          first_name varchar not null,

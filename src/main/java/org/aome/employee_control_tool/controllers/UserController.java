@@ -4,8 +4,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.aome.employee_control_tool.dtos.EmployeeDTO;
 import org.aome.employee_control_tool.exceptions.EmployeeNotSaveException;
-import org.aome.employee_control_tool.services.EmployeeService;
 import org.aome.employee_control_tool.responses.Response;
+import org.aome.employee_control_tool.services.TestEmployeeService;
 import org.aome.employee_control_tool.util.ExceptionMessageCollector;
 import org.aome.employee_control_tool.util.validation.employee.BecomeEmployeeValidator;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
-    private final EmployeeService employeeService;
+    private final TestEmployeeService testEmployeeService;
 
     private final BecomeEmployeeValidator becomeEmployeeValidator;
 
@@ -30,7 +30,7 @@ public class UserController {
             throw new EmployeeNotSaveException(ExceptionMessageCollector.collectMessage(bindingResult));
         }
 
-        employeeService.saveAndConnectWithUser(employeeDTO);
+        testEmployeeService.saveAndConnectWithUser(employeeDTO);
 
         return new Response("Your request is sent", LocalDateTime.now());
     }

@@ -3,6 +3,7 @@ package org.aome.employee_control_tool.services;
 import lombok.Data;
 import org.aome.employee_control_tool.dtos.AuthenticationDTO;
 import org.aome.employee_control_tool.store.entities.EmployeeEntity;
+import org.aome.employee_control_tool.store.entities.TestEmployeeEntity;
 import org.aome.employee_control_tool.store.entities.UserEntity;
 import org.aome.employee_control_tool.store.repositories.UserRepository;
 import org.aome.employee_control_tool.util.converters.Converters;
@@ -40,6 +41,13 @@ public class UserService {
         UserEntity user = userRepository.findUserEntityById(id).orElseThrow(UserNotFoundException::new);
         user.setEmployee(employeeEntity);
         user.setRole("ROLE_EMPLOYEE");
+        userRepository.save(user);
+        return user;
+    }
+    @Transactional
+    public UserEntity addTestEmployeeById(UUID id, TestEmployeeEntity testEmployeeEntity){
+        UserEntity user = userRepository.findUserEntityById(id).orElseThrow(UserNotFoundException::new);
+        user.getTestEmployees().add(testEmployeeEntity);
         userRepository.save(user);
         return user;
     }

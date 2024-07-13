@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -32,4 +34,10 @@ public class UserEntity {
     @OneToOne(mappedBy = "user")
     EmployeeEntity employee;
 
+    @OneToMany(mappedBy = "user")
+    List<TestEmployeeEntity> testEmployees;
+
+    public List<TestEmployeeEntity> getTestEmployees() {
+        return testEmployees == null ? new ArrayList<>() : testEmployees;
+    }
 }

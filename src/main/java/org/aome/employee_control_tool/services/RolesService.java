@@ -1,4 +1,6 @@
-package org.aome.employee_control_tool.store.entities;
+package org.aome.employee_control_tool.services;
+
+import org.aome.employee_control_tool.store.entities.Roles;
 
 import java.util.ArrayList;
 import java.util.List;
