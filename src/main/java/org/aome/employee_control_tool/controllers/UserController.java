@@ -3,7 +3,7 @@ package org.aome.employee_control_tool.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.aome.employee_control_tool.dtos.EmployeeDTO;
-import org.aome.employee_control_tool.exceptions.EmployeeNotSaveException;
+import org.aome.employee_control_tool.exceptions.EmployeeNotCreatedException;
 import org.aome.employee_control_tool.responses.Response;
 import org.aome.employee_control_tool.services.TestEmployeeService;
 import org.aome.employee_control_tool.util.ExceptionMessageCollector;
@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -27,12 +28,13 @@ public class UserController {
     public Response becomeEmployee(@RequestBody @Valid EmployeeDTO employeeDTO, BindingResult bindingResult){
         becomeEmployeeValidator.validate(employeeDTO, bindingResult);
         if(bindingResult.hasErrors()){
-            throw new EmployeeNotSaveException(ExceptionMessageCollector.collectMessage(bindingResult));
+            throw new EmployeeNotCreatedException(ExceptionMessageCollector.collectMessage(bindingResult));
         }
 
         testEmployeeService.saveAndConnectWithUser(employeeDTO);
 
         return new Response("Your request is sent", LocalDateTime.now());
     }
+
 
 }

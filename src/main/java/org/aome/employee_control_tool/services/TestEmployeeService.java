@@ -3,7 +3,7 @@ package org.aome.employee_control_tool.services;
 import lombok.Data;
 import org.aome.employee_control_tool.dtos.EmployeeDTO;
 import org.aome.employee_control_tool.exceptions.EmployeeNotFoundException;
-import org.aome.employee_control_tool.exceptions.EmployeeNotSaveException;
+import org.aome.employee_control_tool.exceptions.EmployeeNotCreatedException;
 import org.aome.employee_control_tool.security.UserDetailsHolder;
 import org.aome.employee_control_tool.store.entities.TestEmployeeEntity;
 import org.aome.employee_control_tool.store.entities.UserEntity;
@@ -37,7 +37,7 @@ public class TestEmployeeService {
             testEmployeeEntity.setUser(authorizedUserEntity);
             testEmployeeRepository.save(testEmployeeEntity);
         }catch (IOException e){
-            throw new EmployeeNotSaveException(e.getMessage());
+            throw new EmployeeNotCreatedException(e.getMessage());
         }
     }
     @Transactional

@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface EmployeeExistsConstraint {
-    String message() default "Employee already exists";
+    String message() default "Employee not exist";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

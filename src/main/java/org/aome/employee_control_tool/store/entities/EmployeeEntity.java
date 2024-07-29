@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
@@ -56,5 +57,22 @@ public class EmployeeEntity {
 
     public List<VacationEntity> getVacations() {
         return vacations == null ? new ArrayList<>() : vacations;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EmployeeEntity entity = (EmployeeEntity) o;
+        return Objects.equals(firstName, entity.firstName)
+                && Objects.equals(lastName, entity.lastName)
+                && Objects.equals(position, entity.position)
+                && Objects.equals(department, entity.department)
+                && Objects.equals(dateOfHire, entity.dateOfHire);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, position, department, dateOfHire);
     }
 }

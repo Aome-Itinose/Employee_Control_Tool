@@ -18,7 +18,7 @@ public class JWTUtil {
 
     @Value("${security.jwt.issuer}")
     private String issuer;
-
+    
     @Value("${security.jwt.expiration-minutes}")
     private Integer expirationMinutes;
 

@@ -1,13 +1,8 @@
 package org.aome.employee_control_tool.util.converters;
 
 import lombok.RequiredArgsConstructor;
-import org.aome.employee_control_tool.dtos.AuthenticationDTO;
-import org.aome.employee_control_tool.dtos.EmployeeDTO;
-import org.aome.employee_control_tool.dtos.TimeSheetDTO;
-import org.aome.employee_control_tool.store.entities.EmployeeEntity;
-import org.aome.employee_control_tool.store.entities.TestEmployeeEntity;
-import org.aome.employee_control_tool.store.entities.TimeSheetEntity;
-import org.aome.employee_control_tool.store.entities.UserEntity;
+import org.aome.employee_control_tool.dtos.*;
+import org.aome.employee_control_tool.store.entities.*;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -71,6 +66,26 @@ public class Converters {
                 .date(timeSheetDTO.getDate())
                 .hoursWorked(timeSheetDTO.getHoursWorked())
                 .efficiency(timeSheetDTO.getEfficiency())
+                .build();
+    }
+    public static VacationEntity vacationDtoToEntity(VacationDTO vacationDTO){
+        return VacationEntity.builder()
+                .startDate(vacationDTO.getStartDate())
+                .endDate(vacationDTO.getEndDate())
+                .build();
+    }
+    public static VacationDTO vacationEntityToDto(VacationEntity vacationEntity){
+        return VacationDTO.builder()
+                .startDate(vacationEntity.getStartDate())
+                .endDate(vacationEntity.getEndDate())
+                .build();
+    }
+    public static VacationEmployeeDTO vacationEntityToVacationEmployeeDTO(VacationEntity vacationEntity){
+        return VacationEmployeeDTO.builder()
+                .id(vacationEntity.getId())
+                .startDate(vacationEntity.getStartDate())
+                .endDate(vacationEntity.getEndDate())
+                .employee(Converters.employeeEntityToDto(vacationEntity.getEmployee()))
                 .build();
     }
 }

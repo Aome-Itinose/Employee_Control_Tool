@@ -33,6 +33,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/user/**").hasAnyRole(Roles.USER.getTitle(), Roles.BIG_BROTHER.getTitle())
+                        .requestMatchers("/employee/**").hasAnyRole(Roles.EMPLOYEE.getTitle(), Roles.BIG_BROTHER.getTitle())
                         .requestMatchers("/teamlead/**").hasAnyRole(Roles.TEAMLEAD.getTitle(), Roles.BIG_BROTHER.getTitle())
                         .requestMatchers("/director/**").hasAnyRole(Roles.DIRECTOR.getTitle(), Roles.BIG_BROTHER.getTitle())
                 )
