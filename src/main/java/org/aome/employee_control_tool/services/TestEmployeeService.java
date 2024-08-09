@@ -25,11 +25,11 @@ public class TestEmployeeService {
     private final UserDetailsHolder userDetailsHolder;
     private final Converters converters;
 
-    public TestEmployeeEntity findTestEmployeeEntityById(UUID id){
+    public TestEmployeeEntity findTestEmployeeEntityById(UUID id) throws EmployeeNotFoundException {
         return testEmployeeRepository.findById(id).orElseThrow(EmployeeNotFoundException::new);
     }
     @Transactional
-    public void saveAndConnectWithUser(EmployeeDTO employeeDTO) {
+    public void saveAndConnectWithUser(EmployeeDTO employeeDTO) throws EmployeeNotCreatedException {
         try {
             TestEmployeeEntity testEmployeeEntity = Converters.employeeDtoToTestEntity(employeeDTO);
             UUID authorizedUserId = userDetailsHolder.getUserFromSecurityContext().getId();

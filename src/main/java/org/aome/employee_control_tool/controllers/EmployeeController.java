@@ -24,11 +24,11 @@ public class EmployeeController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<EmployeeDTO> getEmployees(@RequestParam(required = false) Optional<String> firstName,
-                                          @RequestParam(required = false) Optional<String> lastName,
+    public List<EmployeeDTO> getEmployees(@RequestParam(required = false, name = "first_name") Optional<String> firstName,
+                                          @RequestParam(required = false, name = "last_name") Optional<String> lastName,
                                           @RequestParam(required = false) Optional<String> position,
                                           @RequestParam(required = false) Optional<String> department,
-                                          @RequestParam(required = false) Optional<LocalDate> dateOfHire,
+                                          @RequestParam(required = false, name = "date_of_hire") Optional<LocalDate> dateOfHire,
                                           @RequestParam(required = false, defaultValue = "0") int page,
                                           @RequestParam(required = false, defaultValue = "10") int size){
 

@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
     }
     @ExceptionHandler(AuthenticationException.class)
     @ResponseStatus(HttpStatus.BAD_GATEWAY)
-    private ExceptionResponse authExceptionHandler(RuntimeException e){
+    private ExceptionResponse authExceptionHandler(AuthenticationException e){
         return new ExceptionResponse(e.getMessage(), LocalDateTime.now());
     }
 }

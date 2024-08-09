@@ -39,7 +39,9 @@ public class UserEntity {
     List<TestEmployeeEntity> testEmployees;
 
     public List<TestEmployeeEntity> getTestEmployees() {
-        return testEmployees == null ? new ArrayList<>() : testEmployees;
+        if(testEmployees == null)
+            testEmployees = new ArrayList<>();
+        return testEmployees;
     }
 
     @Override
@@ -47,8 +49,7 @@ public class UserEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserEntity that = (UserEntity) o;
-        return Objects.equals(id, that.id)
-                && Objects.equals(username, that.username)
+        return Objects.equals(username, that.username)
                 && Objects.equals(password, that.password)
                 && Objects.equals(role, that.role);
     }

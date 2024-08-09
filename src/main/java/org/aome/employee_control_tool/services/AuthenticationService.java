@@ -1,5 +1,6 @@
 package org.aome.employee_control_tool.services;
 
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.aome.employee_control_tool.dtos.AuthenticationDTO;
 import org.aome.employee_control_tool.security.JWTUtil;

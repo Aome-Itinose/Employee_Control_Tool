@@ -9,7 +9,7 @@ spring:
 
 #WEB
 server:
-  port: ${SERVER-PORT}
+  port: 8080
 
 
 #Security

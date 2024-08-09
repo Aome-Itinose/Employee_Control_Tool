@@ -17,10 +17,14 @@ public class DirectorController {
 
     private final EmployeeService employeeService;
 
+
+    /**
+     * @param testEmployeeId - pre-employee id entity
+     */
     @PostMapping("/confirm-employee")
     @ResponseStatus(HttpStatus.OK)
-    public Response confirmEmployee(@RequestBody IdDTO id){
-        EmployeeDTO employeeDTO = employeeService.confirmEmployee(id.getId());
+    public Response confirmEmployee(@RequestBody IdDTO testEmployeeId){
+        EmployeeDTO employeeDTO = employeeService.saveEmployee(testEmployeeId.getId());
 
         String message = String.format("Now %s %s is your employee", employeeDTO.getFirstName(), employeeDTO.getLastName());
         return new Response(message, LocalDateTime.now());

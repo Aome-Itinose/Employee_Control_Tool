@@ -1,6 +1,7 @@
 package org.aome.employee_control_tool.services;
 
 import lombok.Data;
+import org.aome.employee_control_tool.exceptions.UserNotFoundException;
 import org.aome.employee_control_tool.store.repositories.VacationRepository;
 import org.aome.employee_control_tool.store.search_specifications.EmployeeSearchSpecifications;
 import org.aome.employee_control_tool.store.search_specifications.VacationSearchSpecifications;
@@ -65,11 +66,11 @@ public class EmployeeService {
     }
 
     @Transactional
-    public EmployeeDTO confirmEmployee(UUID employeeId) {
+    public EmployeeDTO saveEmployee(UUID employeeId) throws EmployeeNotFoundException, UserNotFoundException {
         TestEmployeeEntity testEmployeeEntity = testEmployeeService.findTestEmployeeEntityById(employeeId);
         EmployeeEntity employeeEntity = Converters.employeeTestEntityToEntity(testEmployeeEntity);
 
-        UserEntity confirmedUser = userService.setEmployeeById(employeeId, employeeEntity);
+        UserEntity confirmedUser = userService.setEmployeeById(testEmployeeEntity.getUser().getId(), employeeEntity);
 
         employeeEntity.setUser(confirmedUser);
         testEmployeeService.deleteById(employeeId);

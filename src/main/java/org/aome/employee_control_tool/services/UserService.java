@@ -31,13 +31,14 @@ public class UserService {
     public boolean isExistByUsername(String username){
         return userRepository.existsByUsername(username);
     }
+
     @Transactional
     public UserEntity save(AuthenticationDTO authenticationDTO){
         UserEntity userEntity = Converters.authenticationDtoToEntity(authenticationDTO);
         return userRepository.save(enrich(userEntity));
     }
     @Transactional
-    public UserEntity setEmployeeById(UUID id, EmployeeEntity employeeEntity){
+    public UserEntity setEmployeeById(UUID id, EmployeeEntity employeeEntity) throws UserNotFoundException{
         UserEntity user = userRepository.findUserEntityById(id).orElseThrow(UserNotFoundException::new);
         user.setEmployee(employeeEntity);
         user.setRole("ROLE_EMPLOYEE");
@@ -45,7 +46,7 @@ public class UserService {
         return user;
     }
     @Transactional
-    public UserEntity addTestEmployeeById(UUID id, TestEmployeeEntity testEmployeeEntity){
+    public UserEntity addTestEmployeeById(UUID id, TestEmployeeEntity testEmployeeEntity) throws UserNotFoundException{
         UserEntity user = userRepository.findUserEntityById(id).orElseThrow(UserNotFoundException::new);
         user.getTestEmployees().add(testEmployeeEntity);
         userRepository.save(user);

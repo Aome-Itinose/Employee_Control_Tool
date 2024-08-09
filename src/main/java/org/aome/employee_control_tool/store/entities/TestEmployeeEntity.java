@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
@@ -42,4 +43,21 @@ public class TestEmployeeEntity {
     @Column(name = "ceo_link")
     String ceoLink;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TestEmployeeEntity that = (TestEmployeeEntity) o;
+        return Objects.equals(firstName, that.firstName)
+                && Objects.equals(lastName, that.lastName)
+                && Objects.equals(position, that.position)
+                && Objects.equals(department, that.department)
+                && Objects.equals(dateOfHire, that.dateOfHire)
+                && Objects.equals(ceoLink, that.ceoLink);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, position, department, dateOfHire, ceoLink);
+    }
 }

@@ -24,7 +24,7 @@ public class UserController {
     private final BecomeEmployeeValidator becomeEmployeeValidator;
 
     @PostMapping("/become-employee")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     public Response becomeEmployee(@RequestBody @Valid EmployeeDTO employeeDTO, BindingResult bindingResult){
         becomeEmployeeValidator.validate(employeeDTO, bindingResult);
         if(bindingResult.hasErrors()){

@@ -52,11 +52,13 @@ public class EmployeeEntity {
     List<VacationEntity> vacations;
 
     public List<TimeSheetEntity> getTimeSheets() {
-        return timeSheets == null ? new ArrayList<>() : timeSheets;
+        if(timeSheets == null) timeSheets = new ArrayList<>();
+        return timeSheets;
     }
 
     public List<VacationEntity> getVacations() {
-        return vacations == null ? new ArrayList<>() : vacations;
+        if(vacations == null) vacations = new ArrayList<>();
+        return vacations;
     }
 
     @Override
