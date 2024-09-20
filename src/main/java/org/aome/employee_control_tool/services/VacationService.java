@@ -27,6 +27,7 @@ public class VacationService {
     private final EmployeeService employeeService;
     private final VacationSearchSpecifications vacationSearchSpecifications;
 
+    //Todo: tests
     public List<VacationEmployeeDTO> findVacationDTOs(VacationContainer vacationContainer, int page, int pageSize) {
         Specification<VacationEntity> specification = collectSpecification(vacationContainer);
         PageRequest pageable = PageRequest.of(page, pageSize, Sort.by("startDate"));
@@ -51,16 +52,16 @@ public class VacationService {
 
     private Specification<VacationEntity> collectSpecification(VacationContainer vacationContainer) {
         Specification<VacationEntity> spec = Specification.where(null);
-        if(vacationContainer.getStartAfter().isPresent()){
+        if(vacationContainer.getStartAfter() != null && vacationContainer.getStartAfter().isPresent()){
             spec = spec.and(vacationSearchSpecifications.hasVacationStartDateAfter(vacationContainer.getStartAfter().get()));
         }
-        if(vacationContainer.getStartBefore().isPresent()){
+        if(vacationContainer.getStartBefore() != null && vacationContainer.getStartBefore().isPresent()){
             spec = spec.and(vacationSearchSpecifications.hasVacationStartDateBefore(vacationContainer.getStartBefore().get()));
         }
-        if(vacationContainer.getEndAfter().isPresent()){
+        if(vacationContainer.getEndAfter() != null && vacationContainer.getEndAfter().isPresent()){
             spec = spec.and(vacationSearchSpecifications.hasVacationEndDateAfter(vacationContainer.getEndAfter().get()));
         }
-        if(vacationContainer.getEndBefore().isPresent()){
+        if(vacationContainer.getEndBefore() != null && vacationContainer.getEndBefore().isPresent()){
             spec = spec.and(vacationSearchSpecifications.hasVacationEndDateBefore(vacationContainer.getEndBefore().get()));
         }
         return spec;

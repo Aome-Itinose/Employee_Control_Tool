@@ -22,10 +22,10 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public UserEntity findUserEntityByUsername(String username){
+    public UserEntity findUserEntityByUsername(String username) throws UserNotFoundException {
         return userRepository.findUserEntityByUsername(username).orElseThrow(UserNotFoundException::new);
     }
-    public UserEntity findUserEntityById(UUID id){
+    public UserEntity findUserEntityById(UUID id) throws UserNotFoundException {
         return userRepository.findUserEntityById(id).orElseThrow(UserNotFoundException::new);
     }
     public boolean isExistByUsername(String username){
@@ -42,8 +42,8 @@ public class UserService {
         UserEntity user = userRepository.findUserEntityById(id).orElseThrow(UserNotFoundException::new);
         user.setEmployee(employeeEntity);
         user.setRole("ROLE_EMPLOYEE");
-        userRepository.save(user);
-        return user;
+        return userRepository.save(user);
+
     }
     @Transactional
     public UserEntity addTestEmployeeById(UUID id, TestEmployeeEntity testEmployeeEntity) throws UserNotFoundException{

@@ -28,17 +28,21 @@ public class TestEmployeeService {
     public TestEmployeeEntity findTestEmployeeEntityById(UUID id) throws EmployeeNotFoundException {
         return testEmployeeRepository.findById(id).orElseThrow(EmployeeNotFoundException::new);
     }
+
     @Transactional
-    public void saveAndConnectWithUser(EmployeeDTO employeeDTO) throws EmployeeNotCreatedException {
+    public TestEmployeeEntity saveAndConnectWithUser(EmployeeDTO employeeDTO, UUID userId) throws EmployeeNotCreatedException {
         try {
             TestEmployeeEntity testEmployeeEntity = Converters.employeeDtoToTestEntity(employeeDTO);
-            UUID authorizedUserId = userDetailsHolder.getUserFromSecurityContext().getId();
-            UserEntity authorizedUserEntity = userService.addTestEmployeeById(authorizedUserId, testEmployeeEntity);
+            UserEntity authorizedUserEntity = userService.addTestEmployeeById(userId, testEmployeeEntity);
             testEmployeeEntity.setUser(authorizedUserEntity);
-            testEmployeeRepository.save(testEmployeeEntity);
+            testEmployeeEntity = testEmployeeRepository.save(testEmployeeEntity);
+            authorizedUserEntity.getTestEmployees().add(testEmployeeEntity);
+
+            return testEmployeeEntity;
         }catch (IOException e){
             throw new EmployeeNotCreatedException(e.getMessage());
         }
+
     }
     @Transactional
     public void deleteById(UUID uuid){

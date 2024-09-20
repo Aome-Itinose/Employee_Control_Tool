@@ -1,6 +1,7 @@
 package org.aome.employee_control_tool.security;
 
 import lombok.RequiredArgsConstructor;
+import org.aome.employee_control_tool.exceptions.UserNotFoundException;
 import org.aome.employee_control_tool.services.UserService;
 import org.aome.employee_control_tool.store.entities.UserEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class UserSecurityDetailsService implements UserDetailsService {
     private final UserService userService;
     @Override
-    public UserSecurityDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserSecurityDetails loadUserByUsername(String username) throws UserNotFoundException {
         UserEntity userEntity = userService.findUserEntityByUsername(username);
         return new UserSecurityDetails(userEntity);
     }

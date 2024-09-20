@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 
 @Data
 @RequiredArgsConstructor
@@ -47,5 +48,18 @@ public class UserSecurityDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserSecurityDetails that = (UserSecurityDetails) o;
+        return Objects.equals(userEntity, that.userEntity);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(userEntity);
     }
 }

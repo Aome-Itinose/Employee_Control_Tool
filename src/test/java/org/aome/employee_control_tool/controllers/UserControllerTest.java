@@ -4,10 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.core.util.Json;
 import org.aome.employee_control_tool.dtos.EmployeeDTO;
 import org.aome.employee_control_tool.security.JWTUtil;
+import org.aome.employee_control_tool.security.UserDetailsHolder;
 import org.aome.employee_control_tool.security.UserSecurityDetailsService;
 import org.aome.employee_control_tool.services.EmployeeService;
 import org.aome.employee_control_tool.services.TestEmployeeService;
 import org.aome.employee_control_tool.services.UserService;
+import org.aome.employee_control_tool.store.entities.UserEntity;
 import org.aome.employee_control_tool.util.validation.employee.BecomeEmployeeValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,6 +24,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import static org.mockito.BDDMockito.given;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -48,6 +51,8 @@ class UserControllerTest {
     private UserService userService;
     @MockBean
     private UserSecurityDetailsService userSecurityDetailsService;
+    @MockBean
+    private UserDetailsHolder userDetailsHolder;
 
     EmployeeDTO employeeDTO;
     @BeforeEach
@@ -66,12 +71,15 @@ class UserControllerTest {
 
     @Test
     void becomeEmployee_Ok() throws Exception {
+        UUID userId = UUID.randomUUID();
+        UserEntity user = UserEntity.builder().id(userId).build();
+        given(userDetailsHolder.getUserFromSecurityContext()).willReturn(user);
         ResultActions resultActions = mockMvc.perform(post("/user/become-employee")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(employeeDTO))
         );
         resultActions.andExpect(status().isCreated());
         verify(becomeEmployeeValidator,times(1)).validate(any(), any());
-        verify(testEmployeeService, times(1)).saveAndConnectWithUser(employeeDTO);
+        verify(testEmployeeService, times(1)).saveAndConnectWithUser(employeeDTO, user.getId());
     }
 }

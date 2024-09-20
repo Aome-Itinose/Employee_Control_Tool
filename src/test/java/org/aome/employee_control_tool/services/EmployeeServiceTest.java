@@ -10,6 +10,7 @@ import org.aome.employee_control_tool.store.repositories.EmployeeRepository;
 import org.aome.employee_control_tool.store.repositories.VacationRepository;
 import org.aome.employee_control_tool.store.search_specifications.EmployeeSearchSpecifications;
 import org.aome.employee_control_tool.store.search_specifications.VacationSearchSpecifications;
+import org.aome.employee_control_tool.util.containers.EmployeeContainer;
 import org.aome.employee_control_tool.util.converters.Converters;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,8 +19,14 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -65,6 +72,53 @@ class EmployeeServiceTest {
     void findEmployeeEntityById_throwException() {
         given(employeeRepository.findById((UUID) ArgumentMatchers.any())).willReturn(Optional.empty());
         assertThrows(EmployeeNotFoundException.class, () -> employeeService.findEmployeeEntityById(UUID.randomUUID()));
+    }
+
+    @Test
+    void findEmployeeDTOs_returnEmployeeDTOs() {
+        EmployeeEntity entity1 = EmployeeEntity.builder()
+                .firstName("Alex")
+                .lastName("Smith")
+                .position("Developer")
+                .department("Engineering")
+                .dateOfHire(LocalDate.now())
+                .build();
+        EmployeeEntity entity2 = EmployeeEntity.builder()
+                .firstName("Bob")
+                .lastName("Smith")
+                .position("Engineering")
+                .department("Engineering")
+                .dateOfHire(LocalDate.now())
+                .build();
+        List<EmployeeEntity> entities = List.of(entity1, entity2);
+        given(employeeRepository.findAll((Specification<EmployeeEntity>) any(), (PageRequest)any())).willReturn(new PageImpl<>(entities));
+
+        EmployeeContainer employeeContainer = EmployeeContainer.builder()
+                .firstName(Optional.empty())
+                .lastName(Optional.empty())
+                .position(Optional.empty())
+                .department(Optional.empty())
+                .dateOfHire(Optional.empty())
+                .build();
+
+        List<EmployeeDTO> expected = entities.stream().map(Converters::employeeEntityToDto).toList();
+        List<EmployeeDTO> actual = employeeService.findEmployeeDTOs(employeeContainer, 0,1);
+
+        assertEquals(expected, actual);
+    }
+    @Test
+    void findEmployeeDTOs_throwEmployeeNotFoundException() {
+        given(employeeRepository.findAll((Specification<EmployeeEntity>) any(), (PageRequest) any())).willReturn(new PageImpl<>(Collections.emptyList()));
+
+        EmployeeContainer employeeContainer = EmployeeContainer.builder()
+                .firstName(Optional.empty())
+                .lastName(Optional.empty())
+                .position(Optional.empty())
+                .department(Optional.empty())
+                .dateOfHire(Optional.empty())
+                .build();
+
+        assertThrows(EmployeeNotFoundException.class, () -> employeeService.findEmployeeDTOs(employeeContainer, 0,1));
     }
 
     @Test

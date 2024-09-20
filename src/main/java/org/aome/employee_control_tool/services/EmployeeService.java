@@ -38,11 +38,14 @@ public class EmployeeService {
     private final EmployeeSearchSpecifications employeeSearchSpecifications;
     private final VacationSearchSpecifications vacationSearchSpecifications;
 
-    public EmployeeEntity findEmployeeEntityById(UUID id) {
+    public EmployeeEntity findEmployeeEntityById(UUID id) throws EmployeeNotFoundException {
         return employeeRepository.findById(id).orElseThrow(EmployeeNotFoundException::new);
     }
 
-    public List<EmployeeDTO> findEmployeeDTOs(EmployeeContainer employeeContainer, int page, int pageSize) {
+    /**
+     * Возвращает список работников по заданным в {@link EmployeeContainer} критериям
+     */
+    public List<EmployeeDTO> findEmployeeDTOs(EmployeeContainer employeeContainer, int page, int pageSize) throws EmployeeNotFoundException {
         Specification<EmployeeEntity> spec = collectSpecification(employeeContainer);
 
         PageRequest pageable = PageRequest.of(page, pageSize, Sort.by("firstName"));
@@ -65,6 +68,10 @@ public class EmployeeService {
         return employeeRepository.existsByFirstNameAndLastName(firstName, lastName);
     }
 
+    /**
+     * Конвертирует [pre-employee -> employee] и сохраняет {@link EmployeeEntity}
+     * @return EmployeeDto
+     */
     @Transactional
     public EmployeeDTO saveEmployee(UUID employeeId) throws EmployeeNotFoundException, UserNotFoundException {
         TestEmployeeEntity testEmployeeEntity = testEmployeeService.findTestEmployeeEntityById(employeeId);
@@ -73,8 +80,10 @@ public class EmployeeService {
         UserEntity confirmedUser = userService.setEmployeeById(testEmployeeEntity.getUser().getId(), employeeEntity);
 
         employeeEntity.setUser(confirmedUser);
+        employeeEntity = employeeRepository.save(employeeEntity);
+        confirmedUser.getTestEmployees().remove(testEmployeeEntity);
         testEmployeeService.deleteById(employeeId);
-        return Converters.employeeEntityToDto(employeeRepository.save(employeeEntity));
+        return Converters.employeeEntityToDto(employeeEntity);
     }
 
     private Specification<EmployeeEntity> collectSpecification(EmployeeContainer employeeContainer) {

@@ -19,6 +19,11 @@ import org.springframework.web.bind.annotation.*;
 public class TeamleadController {
     private final TimeSheetService timeSheetService;
     private final VacationService vacationService;
+
+    /**
+     * Добавляет новый
+     * @param timeSheetDTO эффективность работника
+     */
     @PostMapping("/timesheet")
     @ResponseStatus(HttpStatus.OK)
     public void addTimeSheet(@RequestBody @Valid TimeSheetDTO timeSheetDTO, BindingResult bindingResult){
@@ -28,6 +33,9 @@ public class TeamleadController {
         timeSheetService.saveAndConnectWithEmployee(timeSheetDTO);
     }
 
+    /**
+     * @param vacationDTO отпуск работника
+     */
     @PostMapping("/vacation")
     @ResponseStatus(HttpStatus.OK)
     public void addVacation(@RequestBody @Valid VacationDTO vacationDTO, BindingResult bindingResult){

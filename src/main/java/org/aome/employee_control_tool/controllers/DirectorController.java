@@ -19,7 +19,8 @@ public class DirectorController {
 
 
     /**
-     * @param testEmployeeId - pre-employee id entity
+     * Подтверждение работника [pre-employee -> employee]
+     * @param testEmployeeId pre-employee id entity
      */
     @PostMapping("/confirm-employee")
     @ResponseStatus(HttpStatus.OK)

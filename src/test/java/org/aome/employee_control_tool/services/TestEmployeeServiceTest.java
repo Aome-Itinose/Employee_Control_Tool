@@ -13,6 +13,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,6 +30,8 @@ class TestEmployeeServiceTest {
 
     @Mock
     private TestEmployeeRepository testEmployeeRepository;
+    @Mock
+    private UserService userService;
 
     private UUID id;
     private TestEmployeeEntity testEmployeeEntity;
@@ -53,5 +57,34 @@ class TestEmployeeServiceTest {
     void findTestEmployeeEntityById_throwsEmployeeNotFoundException() {
         given(testEmployeeRepository.findById((UUID) any())).willReturn(Optional.empty());
         assertThrows(EmployeeNotFoundException.class, () -> testEmployeeService.findTestEmployeeEntityById(id));
+    }
+
+    @Test
+    void saveAndConnectWithUser_success() throws IOException {
+        UUID userId = UUID.randomUUID();
+        EmployeeDTO employeeDTO = EmployeeDTO.builder()
+                .id(userId)
+                .firstName("Test")
+                .lastName("Test")
+                .position("Testing")
+                .department("Testing")
+                .dateOfHire(LocalDate.now())
+                .ceo(new byte[]{1, 2, 3})
+                .build();
+        UserEntity userEntity = UserEntity.builder()
+                .id(userId)
+                .username("Test")
+                .password("Test")
+                .build();
+        TestEmployeeEntity testEmployeeEntity = Converters.employeeDtoToTestEntity(employeeDTO);
+        given(userService.addTestEmployeeById(userId, testEmployeeEntity)).willReturn(userEntity);
+        given(testEmployeeRepository.save(testEmployeeEntity)).willReturn(testEmployeeEntity);
+
+        TestEmployeeEntity expected = Converters.employeeDtoToTestEntity(employeeDTO);
+        expected.setUser(userEntity);
+
+        TestEmployeeEntity actual = testEmployeeService.saveAndConnectWithUser(employeeDTO, userId);
+        assertEquals(expected, actual);
+
     }
 }

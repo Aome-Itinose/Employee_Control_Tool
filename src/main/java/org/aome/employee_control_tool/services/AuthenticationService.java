@@ -19,6 +19,13 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final JWTUtil jwtUtil;
 
+    /**
+     * Аутентифицирует
+     * @param authenticationDTO содержить логин и пароль
+     * @return jwt токен
+     * @throws AuthenticationException если неправильный логин/пароль
+     */
+    //Todo: обработать BadCredentialsException
     public String authenticateAndReturnToken(AuthenticationDTO authenticationDTO) throws AuthenticationException {
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                 authenticationDTO.getUsername(), authenticationDTO.getPassword());
@@ -30,6 +37,11 @@ public class AuthenticationService {
         return jwtUtil.generateToken(authenticationDTO.getUsername());
     }
 
+    /**
+     * Сохраняет нового пользователя
+     * @param authenticationDTO логин и пароль
+     * @return jwt токен
+     */
     public String saveUserAndReturnToken(AuthenticationDTO authenticationDTO){
         UserEntity userEntity = userService.save(authenticationDTO);
 

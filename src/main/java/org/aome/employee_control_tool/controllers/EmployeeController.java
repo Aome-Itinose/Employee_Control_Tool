@@ -22,6 +22,9 @@ public class EmployeeController {
     private final EmployeeService employeeService;
     private final VacationService vacationService;
 
+    /**
+     * @return список работников подходящих под данные критерии
+     */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<EmployeeDTO> getEmployees(@RequestParam(required = false, name = "first_name") Optional<String> firstName,
@@ -43,6 +46,9 @@ public class EmployeeController {
         return employeeService.findEmployeeDTOs(employee, page, size);
     }
 
+    /**
+     * @return список дто (employee + vacation) подходящих под заданные критерии
+     */
     @GetMapping("/by-vacation")
     @ResponseStatus(HttpStatus.OK)
     public List<VacationEmployeeDTO> getEmployeeByVacation(@RequestParam(required = false) Optional<LocalDate> startAfter,
